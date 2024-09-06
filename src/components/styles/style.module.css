@@ -113,12 +113,19 @@ input:focus {
 
 
 /* home page */
+.HomePageWidth{
+width: 100%;
+background-color: floralwhite;
+}
 .HomeMainPage{
     width: 100%;
    display: flex;
    justify-content: space-between;
-   padding: 10px 50px;
-
+   padding: 30px 50px 30px 50px;
+   position: sticky;
+   z-index: 10;
+   top: 0px;
+   background-color: rgb(37 60 79);
 }
 .HomeHeaderPage{
     width: 100%;
@@ -132,5 +139,128 @@ input:focus {
     border-radius: 10px;
     background-color: rgb(153, 188, 218);
     cursor: pointer;
+}
+.HeroSection2{
+ position: relative;
+ margin-top: -2px ;
+width: 100%;
+height: 700px;
+border: 2px solid #ecf0f1;
+overflow: hidden;
+border-radius: 5px;
+cursor: pointer;
+background-image: url('https://images.unsplash.com/photo-1492892132812-a00a8b245c45?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aGVybyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D');
+}
+.HeroSection2 img{
+    object-fit: cover;
+    transition: 1s ease;
 
 }
+.HeroSection2 img:hover{
+    transform: scale(1.4) rotate(10deg);
+}
+.HeroSection1{
+  position: absolute;
+  width: 100%;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.HeroSection1 button{ 
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+.inputHeader{
+    padding-left: 35px;
+    background-color: floralwhite;
+}
+
+.SearchDiv{
+display: flex;
+gap: 20px;
+}
+.LogoHeader h5{
+    display: flex;
+    padding: 10px 20px;
+cursor: pointer;
+color: white;
+border: 1px solid rgb(175, 163, 163);  
+border-radius: 10px;
+}
+.LogoHeader h5:hover{
+ 
+}
+
+.LogoHeader{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.HeroSection1 button:hover{
+
+}
+.HeroSection1 h2{
+    color: white;
+font-size: 70px;
+}
+.HeroSection1 span{
+    font-family:'Times New Roman', Times, serif;
+    color: chocolate;
+}
+
+/* pokemon */
+.PokemonDiv{
+    width: 100%; 
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 50px;
+    margin-bottom: 30px;
+    }
+    .pokemonPartDiv{
+        width: 25%;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        background-color: floralwhite;
+    }
+    .pokemonPartDiv1{
+        width: 18rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0eeee;
+      
+    }
+    .pokemonPartDiv img{
+        width: 35%;
+        background-color: #c0b0b0;
+        box-shadow: 0px 8px 15px white;
+        transition: all 0.3s ease-in-out;
+        border-radius: 50px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    .pokemonPartDiv img:hover{
+        transform: translateY(-5px); 
+        box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15); 
+    }
+    .btnPokemon{
+        padding: 10px 30px;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    .btnPokemon:hover{
+    background-color: darkgrey;
+    }
+    
+    .pagination{
+        justify-content: center;
+        margin-bottom: 30px;
+    }

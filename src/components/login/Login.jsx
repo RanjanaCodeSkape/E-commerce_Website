@@ -1,14 +1,36 @@
 import { useForm } from 'react-hook-form';
 import styles from '../styles/style.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import HomePage from '../HomePage';
 import { Link } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useState } from 'react';
+import axios from 'axios';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const [isAuthenticated , setIsAuthenticated] = useState(false)
   const navigate = useNavigate();
+ 
+  const loginwithGoogle = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `Bearer ${response.access_token}`,
+          },
+        });
+        console.log(res.data);
+        localStorage.setItem("userInfo", JSON.stringify(res.data));
+        setIsAuthenticated(true);
+        navigate('/homepage');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+  
+    
 
   const onSubmit = (data) => {
     console.log('Login Data:', data);
@@ -26,7 +48,7 @@ const Login = () => {
   return (
     <>
       {isAuthenticated ? (
-        <HomePage logout={logout} />
+        <HomePage/>
       ) : (
         <div className={styles.maindiv}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.formDiv}>
@@ -68,7 +90,7 @@ const Login = () => {
                 <p></p>
               </div>
 
-              <div className={styles.loginFormWith} onClick={() => loginWithRedirect()}>
+              <div className={styles.loginFormWith} onClick={() => loginwithGoogle()}>
                 <p className={styles.paraWith}>Login with</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 18 18" fill="none">
                   <path d="M17.3585 8.88589C17.3585 8.30277 17.3116 7.71965 17.2178 7.14844H9.25781V10.4448H13.8181C13.6305 11.504 13.0209 12.456 12.13 13.051V15.1931H14.8497C16.4441 13.7055 17.3585 11.504 17.3585 8.88589Z" fill="#4285F4"/>
@@ -77,7 +99,7 @@ const Login = () => {
                   <path d="M9.25672 3.51711C10.4642 3.49331 11.6248 3.95743 12.4923 4.80235L14.9073 2.35088C13.3715 0.89904 11.3552 0.101717 9.25672 0.125518C6.06803 0.125518 3.14897 1.95817 1.71875 4.84995L4.52058 7.06341C5.18879 5.02846 7.05277 3.51711 9.25672 3.51711Z" fill="#EA4335"/>
                 </svg>
               </div>
-
+             
               <div>
                 <p>Didn't have an account? <Link to='/signup'>Sign Up</Link></p>
               </div>
