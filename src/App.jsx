@@ -6,7 +6,7 @@ import Login from './components/login/Login';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Categories from './components/category/Categories';
-
+import ProductDetail from './components/product-detail/ProductDetail'
 const App = () => {
 
 
@@ -18,6 +18,7 @@ const App = () => {
     <Route path="/" element={<Login/>} />
     <Route path="/homepage" element={<HomePage/>} />
     <Route path="/categories" element={<Categories/>} />
+    <Route path="/product-detail/:id" element={<ProductDetail/>} />
     
     </Routes>
     </>
