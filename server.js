@@ -45,6 +45,7 @@ app.get('*', (req, res) => {
     const html = template
       .replace(`<!--app-html-->`, appHtml)
       .replace(`<!--title-->`, helmet.title.toString())
+      
       .replace(`<!--meta-->`, helmet.meta.toString());
 
     // Send the final HTML response

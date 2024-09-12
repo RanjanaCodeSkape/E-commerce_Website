@@ -20,6 +20,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "express": "^4.21.0",
+    "path": "^0.12.7",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
@@ -30,7 +31,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.26.1",
     "react-share": "^5.1.0",
-    "react-star-ratings": "^2.3.0"
+    "react-star-ratings": "^2.3.0",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

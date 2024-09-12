@@ -21,6 +21,7 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`https://dummyjson.com/products/${id}`);
+        console.log(response.data); 
         setPhoto(response.data);
       } catch (error) {
         console.error('Error fetching product data:', error);
@@ -28,6 +29,7 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
+  
 
   const shareUrl = photo ? `${window.location.origin}/product-detail/${photo.id}` : window.location.href;
 
@@ -44,14 +46,14 @@ const ProductDetail = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{photo.title || 'Product Title'}</title>
-        <meta name="title" property="og:title" content={photo.title || 'Product Title'} />
-        <meta name="description" property="og:description" content={photo.description || 'Product description goes here.'} />
-        <meta name="image" property="og:image" content={photo.thumbnail || (photo.images && photo.images[0]) || 'fallback-image-url'} />
-        <meta name="url" property="og:url" content={shareUrl} />
-        <meta property="og:type" content="website" />
-      </Helmet>
+    <Helmet>
+  <title>{photo.title || 'Product Title'}</title>
+  <meta property="og:title" content={photo.title || 'Product Title'} />
+  <meta property="og:description" content={photo.description || 'Product description goes here.'} />
+  <meta property="og:image" content={photo.thumbnail || 'fallback-image-url'} />
+  <meta property="og:url" content={shareUrl} />
+  <meta property="og:type" content="website" />
+</Helmet>
 
       <div className={styles.ProductDetailContainer}>
         <div className={styles.itemCard}>
@@ -87,10 +89,10 @@ const ProductDetail = () => {
             Description: <span>{photo.description || 'No Description Available'}</span>
           </h3>
           <h3>
-            Price: <span>{photo.price ? `${photo.price} $` : 'Price not available'}</span>
+            Price: <span>{photo.price || 'Price not available'}</span>
           </h3>
           <h3>
-            Rating:{' '}
+            Rating: 
             <span>
               <StarRatings
                 rating={photo.rating || 0}
@@ -123,22 +125,22 @@ const ProductDetail = () => {
               <div className={styles.bodyModal}>
                 <div>Share on</div>
                 <div className={styles.iconContainer}>
-                  <FaWhatsapp
-                    size={40}
-                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
-                  />
-                  <FaFacebook
-                    size={40}
-                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
-                  />
-                  <FaTelegram
-                    size={40}
-                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
-                  />
-                  <FaTwitter
-                    size={40}
-                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
-                  />
+                <FaWhatsapp
+  size={40}
+  onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${photo.title} - ${photo.description} ${shareUrl}`)}
+/>
+<FaFacebook
+  size={40}
+  onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)}
+/>
+<FaTelegram
+  size={40}
+  onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
+/>
+<FaTwitter
+  size={40}
+  onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
+/>
                 </div>
               </div>
 
