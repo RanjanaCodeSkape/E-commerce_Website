@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
-import { useState, useRef ,useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Carousel } from "react-responsive-carousel";
+import { Carousel } from 'react-responsive-carousel';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import styles from './styles/style.module.css';
@@ -9,7 +9,7 @@ import { FaWhatsapp, FaFacebook, FaTelegram, FaTwitter } from 'react-icons/fa';
 import Modal from 'react-bootstrap/Modal';
 
 const ProductDetail = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [photo, setPhoto] = useState({});
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -23,7 +23,7 @@ const ProductDetail = () => {
         const response = await axios.get(`https://dummyjson.com/products/${id}`);
         setPhoto(response.data);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        console.error('Error fetching product data:', error);
       }
     };
     fetchProduct();
@@ -46,21 +46,16 @@ const ProductDetail = () => {
     <>
       <Helmet>
         <title>{photo.title || 'Product Title'}</title>
-        <meta name='title' property="og:title" content={photo.title || 'Product Title'} />
-        <meta name='description' property="og:description" content={photo.description || 'Product description goes here.'} />
-        <meta name='image' property="og:image" content={photo.thumbnail || (photo.images && photo.images[0]) || 'fallback-image-url'} />
-        <meta name='url' property="og:url" content={shareUrl} />
+        <meta name="title" property="og:title" content={photo.title || 'Product Title'} />
+        <meta name="description" property="og:description" content={photo.description || 'Product description goes here.'} />
+        <meta name="image" property="og:image" content={photo.thumbnail || (photo.images && photo.images[0]) || 'fallback-image-url'} />
+        <meta name="url" property="og:url" content={shareUrl} />
         <meta property="og:type" content="website" />
       </Helmet>
 
       <div className={styles.ProductDetailContainer}>
         <div className={styles.itemCard}>
-        <Carousel
-            autoPlay={true}
-            interval={2000}
-            infiniteLoop={true}
-            showThumbs={false}
-          >
+          <Carousel autoPlay={true} interval={2000} infiniteLoop={true} showThumbs={false}>
             {photo.images && photo.images.length > 0 ? (
               photo.images.map((image, index) => (
                 <div key={index} className={styles.ImgDivCard}>
@@ -68,11 +63,11 @@ const ProductDetail = () => {
                     src={image}
                     alt={`Product ${index}`}
                     onError={(e) => {
-                      e.target.src = photo.thumbnail || "fallback-thumbnail-url"; // Fallback image
+                      e.target.src = photo.thumbnail || 'fallback-thumbnail-url'; // Fallback image
                     }}
                     style={{
-                      width: "100%",
-                      objectFit: "cover"
+                      width: '100%',
+                      objectFit: 'cover',
                     }}
                   />
                 </div>
@@ -81,31 +76,42 @@ const ProductDetail = () => {
               <p>No images available for this product.</p>
             )}
           </Carousel>
-          </div>
+        </div>
 
-<div className={styles.itemCard1}>
-  <h1>Product Detail Page</h1>
-  <h3>Title: <span>{photo.title || 'No Title Available'}</span></h3>
-  <h3>Description: <span>{photo.description || 'No Description Available'}</span></h3>
-  <h3>Price: <span>{photo.price ? `${photo.price} $` : 'Price not available'}</span></h3>
-  <h3>Rating: <span>
-    <StarRatings
-      rating={photo.rating || 0}
-      starRatedColor="gold"
-      starDimension="35px"
-      starSpacing="3px"
-      numberOfStars={5}
-      name="rating"
-    />
-  </span></h3>
-</div>
+        <div className={styles.itemCard1}>
+          <h1>Product Detail Page</h1>
+          <h3>
+            Title: <span>{photo.title || 'No Title Available'}</span>
+          </h3>
+          <h3>
+            Description: <span>{photo.description || 'No Description Available'}</span>
+          </h3>
+          <h3>
+            Price: <span>{photo.price ? `${photo.price} $` : 'Price not available'}</span>
+          </h3>
+          <h3>
+            Rating:{' '}
+            <span>
+              <StarRatings
+                rating={photo.rating || 0}
+                starRatedColor="gold"
+                starDimension="35px"
+                starSpacing="3px"
+                numberOfStars={5}
+                name="rating"
+              />
+            </span>
+          </h3>
+        </div>
 
         <div className={styles.modalShare}>
           <button onClick={handleShow}>Share</button>
 
           <Modal show={show} onHide={handleClose} dialogClassName={`${styles.modalWidth}`}>
             <Modal.Body className={`modal-content ${styles.modalContentLink}`}>
-              <div className={styles.XModal} onClick={handleClose}>X</div>
+              <div className={styles.XModal} onClick={handleClose}>
+                X
+              </div>
               <div className={styles.copyLinkModal}>
                 <form>
                   <textarea ref={textAreaRef} value={shareUrl} readOnly />
@@ -117,21 +123,21 @@ const ProductDetail = () => {
               <div className={styles.bodyModal}>
                 <div>Share on</div>
                 <div className={styles.iconContainer}>
-                  <FaWhatsapp 
-                    size={40} 
-                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${shareUrl}`)} 
+                  <FaWhatsapp
+                    size={40}
+                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${shareUrl}`)}
                   />
-                  <FaFacebook 
-                    size={40} 
-                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)} 
+                  <FaFacebook
+                    size={40}
+                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)}
                   />
-                  <FaTelegram 
-                    size={40} 
-                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title}`)} 
+                  <FaTelegram
+                    size={40}
+                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title}`)}
                   />
-                  <FaTwitter 
-                    size={40} 
-                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title}`)} 
+                  <FaTwitter
+                    size={40}
+                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title}`)}
                   />
                 </div>
               </div>
@@ -148,3 +154,4 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
