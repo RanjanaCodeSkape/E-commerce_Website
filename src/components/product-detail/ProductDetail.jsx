@@ -125,19 +125,19 @@ const ProductDetail = () => {
                 <div className={styles.iconContainer}>
                   <FaWhatsapp
                     size={40}
-                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${shareUrl}`)}
+                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
                   />
                   <FaFacebook
                     size={40}
-                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)}
+                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
                   />
                   <FaTelegram
                     size={40}
-                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title}`)}
+                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
                   />
                   <FaTwitter
                     size={40}
-                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title}`)}
+                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title}&text=${photo.title}&desc=${photo.description}&photo=${photo.thumbnail}`)}
                   />
                 </div>
               </div>

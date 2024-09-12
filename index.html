@@ -4,10 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
-    <!-- <title>Vite + React</title> -->
+
+    <!-- Title and meta tags will be dynamically injected by Helmet during SSR -->
+    <!--title-->
+    <!--meta-->
   </head>
   <body>
-    <div id="root"></div>
+    <!-- React app will be injected here during SSR -->
+    <div id="root"><!--app-html--></div>
+
+    <!-- Script to load the client-side app (for hydration) -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
