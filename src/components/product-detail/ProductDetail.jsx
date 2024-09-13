@@ -112,7 +112,7 @@ const ProductDetail = () => {
         <meta property="og:title" content={photo.title || "Product Title"} />
         <meta
           property="og:description"
-          content={photo.description || "Product description goes here."}
+          content={ + photo.description || "Product description goes here."}
         />
         <meta
           property="og:image"
@@ -258,7 +258,7 @@ const ProductDetail = () => {
                       size={40}
                       onClick={() =>
                         openShareLink(
-                          `https://api.whatsapp.com/send?text=${photo.title} - ${photo.thumbnail} -${photo.description} - ${shareUrl}`
+                          `https://api.whatsapp.com/send?text=${photo.title} - preview_url=${photo.thumbnail} -${photo.description} - ${shareUrl}`
                         )
                       }
                     />
