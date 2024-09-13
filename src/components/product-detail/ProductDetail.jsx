@@ -8,7 +8,7 @@ import styles from "./styles/style.module.css";
 import { IoMdShare } from "react-icons/io";
 import { FaWhatsapp, FaFacebook, FaTelegram, FaTwitter } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
-
+import metaDecorator from "../../metaDecorator.json";
 
 const stripePromise =
   "pk_test_51PrcexJCd7dRiJZhs0rkc6gliw96r0G1AoMoqbjnhZ4Ypx3ExFZLPdPjl4gedJT1myIDg7Hwiye8uk6nX3mjCB5j00cneeEq95";
@@ -50,6 +50,7 @@ const ProductDetail = () => {
   const openShareLink = (url) => {
     window.open(url, "_blank");
   };
+
   const navigate = useNavigate();
   const navigatetoHomePage = () => {
     navigate("/homepage");
@@ -115,9 +116,9 @@ const ProductDetail = () => {
         />
         <meta
           property="og:image"
-          content={photo.thumbnail || "fallback-image-url"}
+          content={ metaDecorator.hostname + photo.thumbnail || "fallback-image-url"}
         />
-        <meta property="og:url" content={shareUrl} />
+        <meta property="og:url" content={metaDecorator.hostname + shareUrl} />
         <meta property="og:type" content="website" />
       </Helmet>
       <div className={styles.ProductDetailContainer}>
