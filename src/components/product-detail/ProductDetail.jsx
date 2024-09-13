@@ -257,7 +257,7 @@ const ProductDetail = () => {
                       size={40}
                       onClick={() =>
                         openShareLink(
-                          `https://api.whatsapp.com/send?text=${photo.title} - ${photo.description} ${shareUrl}`
+                          `https://api.whatsapp.com/send?text=${photo.title} - ${photo.thumbnail} -${photo.description} - ${shareUrl}`
                         )
                       }
                     />
