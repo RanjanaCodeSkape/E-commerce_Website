@@ -22,6 +22,7 @@ const Login = () => {
         });
         console.log(res.data);
         localStorage.setItem("userInfo", JSON.stringify(res.data));
+        localStorage.setItem('isAuthenticated', 'true');
         setIsAuthenticated(true);
         navigate('/homepage');
       } catch (err) {
@@ -38,6 +39,8 @@ const Login = () => {
 
     if (isSignedUp) {
       localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('email', data.email);
+      localStorage.setItem('password', data.password);
       navigate('/homepage');
     } else {
       alert('Please sign up first.');

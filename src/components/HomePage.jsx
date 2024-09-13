@@ -5,9 +5,8 @@ import { Carousel } from "react-responsive-carousel";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import styles from "./styles/style.module.css";
-import { googleLogout } from "@react-oauth/google";
-import { CiSearch } from "react-icons/ci";
 import StarRatings from "react-star-ratings";
+import Navbar from "./navbar/Navbar";
 
 
 const HomePage = () => {
@@ -18,11 +17,9 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [totalPages, setTotalPages] = useState(0);
   const [searchResults, setSearchResults] = useState([]);
-  
-  const recordsPerPage = 9;
-  const navigate = useNavigate();
 
-  
+  const recordsPerPage = 9;
+
   useEffect(() => {
     const savedPage = localStorage.getItem("currentPage");
     const savedSearch = localStorage.getItem("searchQuery");
@@ -56,7 +53,6 @@ const HomePage = () => {
       .get(url)
       .then((response) => {
         if (response.data.products.length === 0 && page !== 1) {
-          // setCurrentPage(1);
           fetchProducts(1, query, category);
         } else {
           setProductData(response.data.products);
@@ -71,23 +67,23 @@ const HomePage = () => {
       .get("https://dummyjson.com/products/categories")
       .then((response) => {
         setCategories(response.data);
-     
       })
       .catch((error) => console.error("Error fetching categories:", error));
   };
+
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-  
+
     if (query) {
       axios
         .get(`https://dummyjson.com/products/search?q=${query}`)
         .then((response) => {
-          setSearchResults(response.data.products); 
+          setSearchResults(response.data.products);
         })
         .catch((error) => console.error("Error fetching search results:", error));
     } else {
-      setSearchResults([]); 
+      setSearchResults([]);
     }
 
     localStorage.setItem("searchQuery", query);
@@ -108,8 +104,9 @@ const HomePage = () => {
     localStorage.setItem("currentPage", newPage);
   };
 
-  const viewProductDetails = (photo) => {
-    navigate(`/product-detail/${photo.id}`);
+  const navigate = useNavigate()
+  const viewProductDetails = (product) => {
+    navigate(`/product-detail/${product.id}`);
   };
 
   const renderPagination = () => {
@@ -200,68 +197,20 @@ const HomePage = () => {
   };
 
 
-
-  const handleLogout = () => {
-    googleLogout();
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userInfo");
-    navigate("/");
-  };
-
   return (
     <div className={styles.HomePageWidth}>
-      <div className={styles.HomeMainPage}>
-        <div className={styles.HomeHeaderPage}>
-          <div className={styles.LogoHeader}>
-
-          <img src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/photography-logo%2C-photography-studio-logo-design-template-42261fff3bd70db2b7e9b5338fa1c03a_screen.jpg?ts=1667205867' alt='' style={{ width: "100px", height: "50px", borderRadius: "10px" }} />
-            <h5 style={{ marginLeft: "40px" }}>Home</h5>
-            <h5>About</h5>
-            <h5>Contact Us</h5>
-            <h5>Categories</h5>
-          </div>
-          <div style={{ position: "relative" }} className={styles.SearchDiv}>
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearch}
-              className={styles.inputHeader}
-            />
-            <CiSearch
-              style={{
-                position: "absolute",
-                left: "5px",
-                top: "13px",
-                fontSize: "25px",
-              }}
-            />
-            {searchResults.length > 0 && (
-              <div className={styles.searchResultsDropdown} onMouseLeave={false}>
-                {searchResults.map((result) => (
-                  <div
-                    key={result.id}
-                    className={styles.searchResultItem}
-                    onClick={() => viewProductDetails(result)}
-                  >
-                    <img
-                      src={result.thumbnail} 
-                      alt={result.title}
-                      className={styles.searchResultImage}
-                    />
-                    <span>{result.title}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        </div>
-      </div>
+       <Navbar
+        searchQuery={searchQuery}
+        handleSearch={handleSearch}
+        searchResults={searchResults}
+        viewProductDetails={viewProductDetails}
+      />
 
       <div className={styles.PokemonDiv}>
-      <div className={styles.CategoriesSection}>
-  <h5>Filter by Category:</h5>
+        <div  className={styles.CategoriesSection}>
+      <h5>Filter by Category:</h5>
+      <div className={styles.CategoriesSection1}>
+  
   <div className={styles.FilterDiv}>
   <p
     className={`${!selectedCategory ? styles.selectedCategory : styles.defaultCategory}`}
@@ -282,7 +231,7 @@ const HomePage = () => {
 </div>
 
 </div>
-
+</div>
 
         <div className={styles.ItemsSection}>
           {productData.length > 0 ? (

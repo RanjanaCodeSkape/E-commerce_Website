@@ -2,8 +2,7 @@
 import { useForm } from 'react-hook-form';
 import styles from '../styles/style.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-// import styles from './styles/style.module.css';
+
 
 
 const SignUp = () => {
@@ -24,6 +23,7 @@ const SignUp = () => {
           <div className={styles.loginForm}>
             <label>Username</label><br/>
             <input 
+            type="text" 
               {...register('username', { required: 'Username is required' })} 
             />
             {errors.username && <p className={styles.errorMsg}>{errors.username.message}</p>}

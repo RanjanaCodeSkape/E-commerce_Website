@@ -1,12 +1,17 @@
 import { Helmet } from 'react-helmet';
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import styles from './styles/style.module.css';
+import { IoMdShare } from "react-icons/io";
 import { FaWhatsapp, FaFacebook, FaTelegram, FaTwitter } from 'react-icons/fa';
 import Modal from 'react-bootstrap/Modal';
+import Navbar from '../navbar/Navbar';
+
+
+const stripePromise = 'pk_test_51PrcexJCd7dRiJZhs0rkc6gliw96r0G1AoMoqbjnhZ4Ypx3ExFZLPdPjl4gedJT1myIDg7Hwiye8uk6nX3mjCB5j00cneeEq95';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -21,7 +26,6 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`https://dummyjson.com/products/${id}`);
-        console.log(response.data); 
         setPhoto(response.data);
       } catch (error) {
         console.error('Error fetching product data:', error);
@@ -29,7 +33,6 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
-  
 
   const shareUrl = photo ? `${window.location.origin}/product-detail/${photo.id}` : window.location.href;
 
@@ -43,35 +46,88 @@ const ProductDetail = () => {
   const openShareLink = (url) => {
     window.open(url, '_blank');
   };
+  const navigate = useNavigate()
+const navigatetoHomePage = () =>{
+navigate('/homepage')
+}
+
+  const handleStripeCheckout = async () => {
+    try {
+      const stripe = await stripePromise;
+
+      // You would ideally want to post this request to a custom backend endpoint
+      const response = await fetch('https://your-backend-url.com/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: photo.title,
+                  description: photo.description,
+                },
+                unit_amount: photo.price * 100, 
+              },
+              quantity: 1,
+            },
+          ],
+          mode: 'payment',
+          success_url: `${window.location.origin}/success`,
+          cancel_url: `${window.location.origin}/cancel`,
+        }),
+      });
+
+      const session = await response.json();
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.error('Error redirecting to Stripe checkout:', result.error.message);
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
+  };
 
   return (
     <>
-    <Helmet>
-  <title>{photo.title || 'Product Title'}</title>
-  <meta property="og:title" content={photo.title || 'Product Title'} />
-  <meta property="og:description" content={photo.description || 'Product description goes here.'} />
-  <meta property="og:image" content={photo.thumbnail || 'fallback-image-url'} />
-  <meta property="og:url" content={shareUrl} />
-  <meta property="og:type" content="website" />
-</Helmet>
-
-      <div className={styles.ProductDetailContainer}>
+   
+      <Helmet>
+        <title>{photo.title || 'Product Title'}</title>
+        <meta property="og:title" content={photo.title || 'Product Title'} />
+        <meta property="og:description" content={photo.description || 'Product description goes here.'} />
+        <meta property="og:image" content={photo.thumbnail || 'fallback-image-url'} />
+        <meta property="og:url" content={shareUrl} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className={styles.ProductDetailContainer} >
+      <button onClick={navigatetoHomePage} style={{ textAlign: "end"}}>Back</button>
+      <div className={styles.ProductDetailContainer1}>
+      
         <div className={styles.itemCard}>
           <Carousel autoPlay={true} interval={2000} infiniteLoop={true} showThumbs={false}>
             {photo.images && photo.images.length > 0 ? (
               photo.images.map((image, index) => (
                 <div key={index} className={styles.ImgDivCard}>
+                 
                   <img
                     src={image}
                     alt={`Product ${index}`}
                     onError={(e) => {
-                      e.target.src = photo.thumbnail || 'fallback-thumbnail-url'; // Fallback image
+                      e.target.src = photo.thumbnail || 'fallback-thumbnail-url'; 
                     }}
                     style={{
                       width: '100%',
-                      objectFit: 'cover',
+                     objectFit:"contain",
+                      position:"relative"
                     }}
                   />
+                    <div onClick={handleShow} className={styles.absoluteShare}>Share<IoMdShare /></div>
                 </div>
               ))
             ) : (
@@ -91,6 +147,18 @@ const ProductDetail = () => {
           <h3>
             Price: <span>{photo.price || 'Price not available'}</span>
           </h3>
+          {/* {
+          photo.reviews.map((photos) => {
+            return(
+              <>
+               <h3>
+            Price: <span>{photos.rating|| 'Price not available'}</span>
+          </h3>
+              </>
+            )
+          })
+          } */}
+         
           <h3>
             Rating: 
             <span>
@@ -104,10 +172,13 @@ const ProductDetail = () => {
               />
             </span>
           </h3>
+
+          {/* Redirects to Stripe Payment Link */}
+          {/* <button onClick={handleStripeCheckout}>Buy Now</button> */}
         </div>
 
         <div className={styles.modalShare}>
-          <button onClick={handleShow}>Share</button>
+         
 
           <Modal show={show} onHide={handleClose} dialogClassName={`${styles.modalWidth}`}>
             <Modal.Body className={`modal-content ${styles.modalContentLink}`}>
@@ -125,35 +196,61 @@ const ProductDetail = () => {
               <div className={styles.bodyModal}>
                 <div>Share on</div>
                 <div className={styles.iconContainer}>
-                <FaWhatsapp
-  size={40}
-  onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${photo.title} - ${photo.description} ${shareUrl}`)}
-/>
-<FaFacebook
-  size={40}
-  onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)}
-/>
-<FaTelegram
-  size={40}
-  onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
-/>
-<FaTwitter
-  size={40}
-  onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
-/>
+                  <FaWhatsapp
+                    size={40}
+                    onClick={() => openShareLink(`https://api.whatsapp.com/send?text=${photo.title} - ${photo.description} ${shareUrl}`)}
+                  />
+                  <FaFacebook
+                    size={40}
+                    onClick={() => openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`)}
+                  />
+                  <FaTelegram
+                    size={40}
+                    onClick={() => openShareLink(`https://t.me/share/url?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
+                  />
+                  <FaTwitter
+                    size={40}
+                    onClick={() => openShareLink(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${photo.title} - ${photo.description}`)}
+                  />
                 </div>
               </div>
 
               <div className={styles.footerModal}>
-                <button onClick={handleClose}>Close</button>
+                <button onClick={handleClose}>cancel</button>
               </div>
             </Modal.Body>
           </Modal>
         </div>
+        {/* Reviews Section */}
+        <div className={styles.reviewsCustomer}>
+        <h2>Reviews-:</h2>
+            {photo.reviews && photo.reviews.length > 0 ? (
+              photo.reviews.map((review, index) => (
+                <div key={index} className={styles.reviewContainer}>
+                  <h4>Name- {review.reviewerName}</h4>
+                  <p>Comment- {review.comment}</p>
+                  <div style={{marginTop:"-15px"}}>Rating-
+                    <StarRatings
+                      rating={review.rating}
+                      starRatedColor="gold"
+                      starDimension="20px"
+                      starSpacing="2px"
+                      numberOfStars={5}
+                      name="review-rating"
+                    />
+                  </div>
+                  {/* <small>{new Date(review.date).toLocaleDateString()}</small> */}
+                </div>
+              ))
+            ) : (
+              <p>No reviews available for this product.</p>
+            )}
+       
+      </div>
+      </div>
       </div>
     </>
   );
 };
 
 export default ProductDetail;
-
