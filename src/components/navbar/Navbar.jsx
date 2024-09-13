@@ -20,7 +20,14 @@ const Navbar = ({ searchQuery, handleSearch, searchResults, viewProductDetails }
   
     const navigate = useNavigate();
 
+    const onSearchChange = (event) => {
+      const query = event.target.value;
+      handleSearch(event);
 
+      if (query.trim() === "") {
+        searchResults = []; 
+      }
+    };
     
   const handleLogout = () => {
     googleLogout();
@@ -48,7 +55,7 @@ const Navbar = ({ searchQuery, handleSearch, searchResults, viewProductDetails }
           type="text"
           placeholder="Search"
           value={searchQuery}
-          onChange={handleSearch}
+          onChange={onSearchChange}
           className={styles.inputHeader}
         />
         <CiSearch

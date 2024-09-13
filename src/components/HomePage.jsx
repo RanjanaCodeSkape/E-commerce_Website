@@ -277,7 +277,7 @@ const HomePage = () => {
                   >
                     <Card.Title>{product.title}</Card.Title>
                     <p className={styles.paraCard}>{product.description}</p>
-                    <p> price-: {product.price} </p>
+                    <p> price-: ${product.price} </p>
                     <p>
                       rating-:
                       <StarRatings

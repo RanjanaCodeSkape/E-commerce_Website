@@ -43,29 +43,25 @@
 }
 
 .ProductDetailContainer {
- 
   width: 100%;
-
   background: linear-gradient(-45deg,  #d76d77, #43cea2, #ffaf7b, #3a1c71);
- 
- 
-  padding: 30px 20px;
+  padding: 30px 60px;
   transition: transform 0.3s ease;
 }
 .ProductDetailContainer1 {
   display: flex;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   /* background: linear-gradient(-45deg,  #d76d77, #43cea2, #ffaf7b, #3a1c71); */
   gap: 20px;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  padding: 30px 20px;
+  padding: 29px 0px;
   transition: transform 0.3s ease;
 }
 
 .itemCard {
-  width: 40%;
+  width: 45%;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
@@ -87,29 +83,63 @@
 }
 
 .itemCard1 {
-  width: 40%;
- 
+  width: 55%;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   border-radius: 12px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   padding: 40px;
+  height: 400px;
   animation: fadeIn 1.2s ease-out, slideUp 1s ease-out;
   transform: translateY(30px);
   opacity: 0;
   animation-fill-mode: forwards;
+  overflow-y: scroll;
   color: #fff;
   transition: background 5s ease-in-out;
 }
+.titleProductHead{
+color: white;
+text-align: center;
+mix-blend-mode:difference;
+font-size: 45px;
+font-weight: 600;
+margin: 20px 0px;
+font-family: fantasy;
+}
 
 .absoluteShare{
+  width: 100%;
+border-radius: 10px;
+display: flex;
+justify-content: space-between;
+justify-items: center;
+padding: 0px 20px;
+  position: absolute;
+  top: 10px;
+  z-index: 10px;
+}
+.absoluteShare1{
   border: 1px solid gray;
   padding: 10px 10px;
   background-color: #f5f4f2;
 border-radius: 10px;
-left: 10px;
-  position: absolute;
   cursor: pointer;
-  top: 10px;
+  z-index: 10px;
+}
+.absoluteShare2{
+
+  display: flex;
+  gap: 5px;
+  z-index: 10px;
+}
+.absoluteShare2 div{
+  border: 1px solid gray;
+  padding: 10px 10px;
+  background-color: #f5f4f2;
+border-radius: 10px;
+
+  display: flex;
+  gap: 5px;
   z-index: 10px;
 }
 /* Gradient animation */
@@ -141,7 +171,7 @@ left: 10px;
   font-weight: bold;
   color: #fff;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   background: linear-gradient(90deg, #ff512f, #dd2476);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
